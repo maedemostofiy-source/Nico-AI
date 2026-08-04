@@ -1,11 +1,13 @@
 from app.vocabulary.engine import format_word
-from app.grammar.engine import format_grammar
 
 
 def route(message, intent, language):
+    """
+    Router:
+    تصمیم می‌گیرد هر پیام به کدام Engine فرستاده شود.
+    """
 
     lower = message.lower().strip()
-
 
     # -------------------------
     # Vocabulary
@@ -30,7 +32,6 @@ def route(message, intent, language):
             "intent": "vocabulary"
         }
 
-
     if lower.startswith("معنی "):
 
         word = lower.replace("معنی", "").strip()
@@ -50,52 +51,7 @@ def route(message, intent, language):
             "intent": "vocabulary"
         }
 
-
-
-    # -------------------------
-    # Grammar
-    # -------------------------
-
-    grammar_keywords = [
-        "explain",
-        "grammar",
-        "گرامر",
-        "توضیح"
-    ]
-
-
-    if any(word in lower for word in grammar_keywords):
-
-        topic = lower
-
-        topic = topic.replace("explain", "")
-        topic = topic.replace("grammar", "")
-        topic = topic.replace("گرامر", "")
-        topic = topic.replace("توضیح", "")
-
-        topic = topic.strip()
-
-
-        result = format_grammar(topic)
-
-
-        if result:
-
-            return {
-                "handled": True,
-                "answer": result,
-                "intent": "grammar"
-            }
-
-
-        return {
-            "handled": True,
-            "answer": "این مبحث گرامری هنوز در نیکو ثبت نشده.",
-            "intent": "grammar"
-        }
-
-
-
+    # هنوز هیچ ماژولی این پیام را نگرفته
     return {
         "handled": False
     }
