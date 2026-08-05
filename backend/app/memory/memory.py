@@ -25,3 +25,31 @@ def get_memory(key):
     memory = load_memory()
 
     return memory.get(key)
+
+def save_session(key, value):
+    memory = load_memory()
+
+    if "session" not in memory:
+        memory["session"] = {}
+
+    memory["session"][key] = value
+
+    with open(MEMORY_FILE, "w", encoding="utf-8") as file:
+        json.dump(memory, file, ensure_ascii=False, indent=4)
+
+
+def get_session(key):
+    memory = load_memory()
+
+    session = memory.get("session", {})
+
+    return session.get(key)
+
+
+def clear_session():
+    memory = load_memory()
+
+    memory["session"] = {}
+
+    with open(MEMORY_FILE, "w", encoding="utf-8") as file:
+        json.dump(memory, file, ensure_ascii=False, indent=4)

@@ -1,4 +1,8 @@
 from app.grammar.lessons import GRAMMAR_LESSONS
+from app.grammar.exercises import GRAMMAR_EXERCISES
+from app.memory.memory import save_session
+
+import random
 
 
 def search_grammar(topic):
@@ -57,5 +61,40 @@ Persian:
 {lesson["level"]}
 """
 
+
+    return answer.strip()
+
+
+
+def format_exercise(topic):
+
+    topic = topic.lower().strip()
+
+    if topic not in GRAMMAR_EXERCISES:
+        return None
+
+    exercise = random.choice(GRAMMAR_EXERCISES[topic])
+    save_session("current_topic", topic)
+    save_session("current_question", exercise["question"])
+    save_session("correct_answer", exercise["answer"])
+
+    answer = f"""
+📝 Grammar Exercise
+
+Topic:
+{topic.title()}
+
+Question:
+{exercise["question"]}
+
+Choices:
+
+A) {exercise["choices"][0]}
+B) {exercise["choices"][1]}
+C) {exercise["choices"][2]}
+
+✅ Correct Answer:
+{exercise["answer"]}
+"""
 
     return answer.strip()
